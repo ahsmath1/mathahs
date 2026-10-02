@@ -1,11 +1,12 @@
 {
-  "name": "Compagnon Maths — Algèbre & Analyse L1",
-  "short_name": "Compagnon Maths",
+  "name": "Compagnon Maths V3 — Algèbre & Analyse",
+  "short_name": "Compagnon Maths V3",
   "lang": "fr",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f6f6f3",
-  "theme_color": "#2f5bd8",
-  "description": "Compagnon local d'étude en algèbre et analyse.",
-  "icons": []
+  "theme_color": "#263238",
+  "description": "Parcours progressif en algèbre et analyse : compréhension, raisonnement, exercices et maîtrise.",
+  "icons": [],
+  "version": "3.0.0"
 }

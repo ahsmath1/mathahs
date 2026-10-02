@@ -1,0 +1,14 @@
+{
+  "version": "3.0.0",
+  "domaines": {
+    "Algèbre": {
+      "chapitres": 13,
+      "lecons_existantes": 12
+    },
+    "Analyse": {
+      "chapitres": 9,
+      "lecons_existantes": 10
+    }
+  },
+  "criterion": "Une carte de chapitre ne vaut pas couverture pédagogique : une notion est considérée développée seulement si elle possède explication, exemple, contre-exemple et exercice avec correction."
+}

@@ -12,7 +12,7 @@ const STORAGE_KEY="compagnon_maths_v2";
 let state={version:VERSION,theme:"",thresholds:{...DEFAULT_THRESHOLDS},notions:{},errors:[],days:[],totalMinutes:0,history:[],diagnosticDone:false,session:null,counterexampleIndex:0};
 let view="home",currentNotion=null,lessonStep=0,exerciseIndex=0,hintLevel=0,answered=false,startTime=0;
 
-const allLessons=()=>[...(typeof ALGEBRA_LESSONS!=="undefined"?ALGEBRA_LESSONS:[]),...(typeof ANALYSE_LESSONS!=="undefined"?ANALYSE_LESSONS:[])];
+const allLessons=()=>[...(typeof ALGEBRA_LESSONS!=="undefined"?ALGEBRA_LESSONS:[]),...(typeof ANALYSE_LESSONS!=="undefined"?ANALYSE_LESSONS:[]),...(typeof V3_LESSONS!=="undefined"?V3_LESSONS:[])];
 const today=()=>new Date().toISOString().slice(0,10);
 const addDays=n=>new Date(Date.now()+n*864e5).toISOString().slice(0,10);
 const escapeHtml=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -63,11 +63,11 @@ function nextRecommendation(){
 function navigate(v){view=v;render();}
 function render(){
   renderNav();const main=document.getElementById("main");
-  const views={home,path,map:renderMap,counterexample,errors,stats,lesson,report,diagnostic,settings};
-  main.innerHTML=(views[view]||home)();window.scrollTo(0,0);
+  const views={home,path,map:renderMap,counterexample,errors,stats,search,lesson,report,diagnostic,settings};
+  main.innerHTML=(views[view]||home)(); if(view==="search"){const b=document.getElementById("searchBox"); if(b){b.addEventListener("input",runSearch);b.focus();}} window.scrollTo(0,0);
 }
 function renderNav(){
-  const items=[["home","🏠 Accueil"],["path","📚 Parcours"],["map","🗺️ Carte"],["diagnostic","🧪 Diagnostic"],["counterexample","⚠️ Contre-exemple"],["errors","📕 Erreurs"],["stats","📈 Statistiques"],["settings","⚙️ Données"]];
+  const items=[["home","🏠 Accueil"],["path","📚 Parcours"],["map","🗺️ Carte"],["diagnostic","🧪 Diagnostic"],["counterexample","⚠️ Contre-exemple"],["errors","📕 Erreurs"],["stats","📈 Statistiques"],["search","🔎 Recherche"],["settings","⚙️ Données"]];
   document.getElementById("nav").innerHTML=`<h1>Compagnon Maths</h1>`+items.map(([v,l])=>`<button class="${view===v?"on":""}" onclick="navigate('${v}')">${l}</button>`).join("")+`<button onclick="toggleTheme()">🌓 Thème</button>`;
 }
 function toggleTheme(){const h=document.documentElement,n=h.dataset.theme==="dark"?"light":"dark";h.dataset.theme=n;state.theme=n;saveState();}
@@ -140,6 +140,18 @@ function stats(){
   return `<h2>📈 Statistiques</h2><div class="c">Temps total : ${Math.round(state.totalMinutes)} min<br>Notions vues : ${Object.keys(state.notions).filter(id=>getNotion(id).done).length}/${allLessons().length}<br>Exercices : ${total} · réussite ${total?Math.round(100*ok.length/total):0} %<br>Réussite sans indice : ${autonomous.length} · avec indice : ${ok.length-autonomous.length}<br>Série : ${streak()} jour(s)</div><div class="c">${top&&total>=5?`Erreur la plus fréquente : <b>${escapeHtml(ERROR_TYPES[top[0]]||top[0])}</b> (${top[1]}×).`:"Pas encore assez de données pour dégager un point faible."}</div>`;
 }
 
+function search(){
+  return `<h2>🔎 Recherche mathématique</h2>
+  <div class="c"><input id="searchBox" placeholder="Rechercher une notion, définition, exemple, chapitre…"><div id="searchResults" style="margin-top:12px"></div></div>
+  <p class="mu">La recherche parcourt les contenus pédagogiques réellement présents dans l'application. Les chapitres encore au stade de carte restent signalés comme tels.</p>`;
+}
+function runSearch(){
+  const q=(document.getElementById("searchBox")?.value||"").trim().toLowerCase();
+  const zone=document.getElementById("searchResults"); if(!zone)return;
+  if(!q){zone.innerHTML="<span class='mu'>Saisis un terme.</span>";return;}
+  const hits=allLessons().filter(n=>[n.title,n.chapter,n.section,n.q,n.intu,n.def,n.ex,n.cex,n.why,n.recall].join(" ").toLowerCase().includes(q));
+  zone.innerHTML=hits.length?hits.map(n=>`<div class="c"><b>${statusIcon(n.id)} ${escapeHtml(n.title)}</b><div class="mu">${escapeHtml(n.domain)} · ${escapeHtml(n.chapter)}</div><p>${escapeHtml(n.def||n.intu||"")}</p><button class="p" onclick="openNotion('${n.id}')">Étudier</button></div>`).join(""):"<span class='mu'>Aucun résultat.</span>";
+}
 function openNotion(id,isReview=false,skipPrereq=false){
   currentNotion=allLessons().find(n=>n.id===id);if(!currentNotion)return;
   lessonStep=isReview?9:0;exerciseIndex=0;hintLevel=0;answered=false;startTime=Date.now();

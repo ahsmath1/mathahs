@@ -1,36 +1,76 @@
-# Compagnon Maths V2
+# Compagnon Maths V3 — Algèbre & Analyse
 
-Application web locale d'étude en Algèbre & Analyse L1.
+Plateforme web locale, offline-first, destinée à l'étude progressive des mathématiques de niveau supérieur.
 
-## Contenu
+## Périmètre
 
-- `index.html` : point d'entrée
-- `styles.css` : interface responsive
-- `app.js` : moteur de progression, maîtrise 5D, révisions, erreurs, diagnostic, export/import
-- `data-algebra.js` : carte Algèbre + notions développées fournies
-- `data-analyse.js` : carte Analyse + notions développées fournies
-- `data-exercises.js` : exercices Exo7 référencés
-- `data-counterexamples.js` : contre-exemples interactifs
-- `manifest.json` + `sw.js` : base PWA/offline
+### Algèbre
+1. Logique et raisonnements
+2. Ensembles et applications
+3. Nombres complexes
+4. Arithmétique
+5. Polynômes
+6. Groupes
+7. Systèmes linéaires
+8. Matrices
+9. L'espace vectoriel R^n
+10. Espaces vectoriels
+11. Dimension finie
+12. Matrices et applications linéaires
+13. Déterminants
 
-## Lancer
+### Analyse
+1. Nombres réels
+2. Suites
+3. Limites et fonctions continues
+4. Fonctions usuelles
+5. Dérivée
+6. Intégrales
+7. Développements limités
+8. Courbes paramétrées
+9. Équations différentielles
 
-### Méthode recommandée
-Avec Python installé, dans ce dossier :
+La V3 conserve la carte structurée de la V2 et ajoute un corpus pédagogique supplémentaire couvrant les chapitres précédemment « structure seule ».
 
-    python -m http.server 8000
+## Architecture pédagogique
 
-Puis ouvrir :
+Prérequis → découverte → intuition → définition rigoureuse → exemple → contre-exemple → question « pourquoi ? » → exercices → indices → correction → suivi multidimensionnel → révision espacée.
 
-    http://localhost:8000
+Les dimensions suivies sont :
+- compréhension
+- calcul
+- raisonnement
+- démonstration
+- transfert
 
-Le service worker/PWA ne fonctionne pas correctement avec `file://`; utilisez donc un petit serveur local.
+## Fonctionnalités
 
-### Sur téléphone
-Le dossier peut être publié sur GitHub Pages ou un autre hébergement statique HTTPS. Ensuite, ouvrir le site avec Safari/Chrome et l'ajouter à l'écran d'accueil.
+- Parcours par notions et prérequis
+- Carte Algèbre / Analyse
+- Corpus de leçons enrichi
+- Exercices à choix avec erreurs typées
+- Indices progressifs
+- Corrections explicatives
+- Carnet d'erreurs
+- Contre-exemples
+- Diagnostic
+- Maîtrise en 5 dimensions
+- Révision espacée
+- Recherche dans le corpus pédagogique
+- Statistiques locales
+- Export/import JSON
+- PWA et fonctionnement hors connexion après mise en cache
+- Interface responsive
 
 ## Important
 
-La carte des 22 chapitres est présente, mais le texte fourni dans la réponse source ne contenait pas réellement tout le contenu pédagogique annoncé. Cette archive n'invente donc pas les chapitres manquants : les entrées non développées apparaissent comme « structure seule ».
+La V3 est nettement plus riche que la V2, mais elle ne prétend pas constituer à elle seule un manuel universitaire exhaustif. La carte complète peut contenir davantage de notions que celles qui possèdent déjà une séquence pédagogique détaillée. L'interface distingue donc implicitement le corpus réellement étudiable de la simple structure de programme.
 
-Le ZIP contient une version fonctionnelle du prototype avec export/import JSON et base PWA ajoutés pour rendre l'ensemble plus utilisable.
+## Lancer
+
+python -m http.server 8000
+
+Puis :
+http://localhost:8000
+
+Le service worker nécessite HTTP(S), pas file://.
