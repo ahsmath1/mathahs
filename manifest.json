@@ -1,0 +1,12 @@
+{
+  "name": "Compagnon Maths V4 — Préparation concours L1",
+  "short_name": "Compagnon Maths V4",
+  "lang": "fr",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f6f3",
+  "theme_color": "#263238",
+  "description": "Parcours progressif en algèbre et analyse : compréhension, raisonnement, exercices et maîtrise.",
+  "icons": [],
+  "version": "4.0.0"
+}
